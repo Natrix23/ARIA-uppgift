@@ -1,0 +1,41 @@
+#accessibleModal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff; /* High contrast background */
+  color: #000; /* High contrast text */
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#accessibleModal:focus {
+  outline: 2px solid #005fcc; /* Visible focus outline */
+}
+
+button {
+  background-color: #005fcc; /* High contrast button */
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 2px solid #ffd700; /* Visible focus outline for buttons */
+}
+
+button:hover {
+  background-color: #003d99; /* Slightly darker shade for hover */
+}
+
+body {
+  font-size: 1rem; /* Ensure legible text size */
+  line-height: 1.5; /* Improve readability */
+  font-family: Arial, sans-serif; /* Use a readable font */
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button
+      id="openModalBtn"
+      aria-controls="accessibleModal"
+      aria-expanded="false"
+    >
+      Öppna modalfönster
+    </button>
+    <div
+      id="accessibleModal"
+      role="dialog"
+      aria-labelledby="modalTitle"
+      aria-describedby="modalDescription"
+      aria-hidden="true"
+    >
+      <h2 id="modalTitle">Exempel på modalfönster</h2>
+      <p id="modalDescription">Här är lite text i modalfönstret.</p>
+      <button id="closeModalBtn" aria-label="Stäng modalfönster">Stäng</button>
+    </div>
+    <button
+      id="openDialogBtn"
+      aria-controls="accessibleDialog"
+      aria-expanded="false"
+    >
+      Öppna dialogfönster
+    </button>
+    <dialog
+      id="accessibleDialog"
+      role="dialog"
+      aria-labelledby="dialogTitle"
+      aria-describedby="dialogDescription"
+      aria-hidden="true"
+    >
+      <h2 id="dialogTitle">
+        Exempel på tillgängligt modalfönster med &lt;dialog&gt;
+      </h2>
+      <p id="dialogDescription">Här är innehållet i modalfönstret.</p>
+      <button id="closeDialogBtn">Stäng</button>
+    </dialog>
+    <!-- dialog taggen ger ett inbyggt och tillgängligt sätt att skapa modaler
+    och dialogrutor i HTML. till skillnad från tidigare metoder, som i hög grad
+    förlitade sig på JavaScript och CSS för att positionera och hantera modaler,
+    tillåter denna tagg utvecklare att skapa dialogrutor som följer principerna
+    för semantisk HTML. -->
+    <button
+      id="menuButton"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="menuContent"
+    >
+      Meny
+    </button>
+    <nav id="menuContent" aria-label="Huvudmeny" hidden>
+      <ul>
+        <li><a role="menu-item" href="#">Hem</a></li>
+        <li><a role="menu-item" href="#">Om oss</a></li>
+        <li><a role="menu-item" href="#">Tjänster</a></li>
+        <li><a role="menu-item" href="#">Kontakt</a></li>
+      </ul>
+    </nav>
+
+    <script>
+      const menuButton = document.getElementById("menuButton");
+      const menuContent = document.getElementById("menuContent");
+
+      function toggleMenu() {
+        const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", !isExpanded);
+        menuContent.hidden = isExpanded;
+        if (!isExpanded) {
+          menuContent.querySelector("a").focus();
+        } else {
+          menuButton.focus();
+        }
+      }
+
+      function handleClickOutside(event) {
+        if (
+          !menuContent.contains(event.target) &&
+          !menuButton.contains(event.target)
+        ) {
+          menuButton.setAttribute("aria-expanded", "false");
+          menuContent.hidden = true;
+        }
+      }
+
+      function handleKeyDown(event) {
+        if (
+          event.key === "Escape" &&
+          menuButton.getAttribute("aria-expanded") === "true"
+        ) {
+          menuButton.setAttribute("aria-expanded", "false");
+          menuContent.hidden = true;
+          menuButton.focus();
+        }
+      }
+
+      menuButton.addEventListener("click", toggleMenu);
+      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+
+      const modal = document.getElementById("accessibleModal");
+      const dialog = document.getElementById("accessibleDialog");
+      const openModalBtn = document.getElementById("openModalBtn");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const openDialogBtn = document.getElementById("openDialogBtn");
+      const closeDialogBtn = document.getElementById("closeDialogBtn");
+
+      function openModal() {
+        modal.setAttribute("aria-hidden", "false");
+        openModalBtn.setAttribute("aria-expanded", "true");
+        modal.style.display = "block";
+        closeModalBtn.focus();
+      }
+
+      function closeModal() {
+        modal.setAttribute("aria-hidden", "true");
+        openModalBtn.setAttribute("aria-expanded", "false");
+        modal.style.display = "none";
+        openModalBtn.focus();
+      }
+
+      function openDialog() {
+        modal.setAttribute("aria-hidden", "false");
+        openModalBtn.setAttribute("aria-expanded", "true");
+        modal.style.display = "block";
+        closeDialogBtn.focus();
+      }
+
+      function closeDialog() {
+        modal.setAttribute("aria-hidden", "true");
+        openModalBtn.setAttribute("aria-expanded", "false");
+        modal.style.display = "none";
+        openDialogBtn.focus();
+      }
+
+      openModalBtn.addEventListener("click", openModal);
+      closeModalBtn.addEventListener("click", closeModal);
+      openDialogBtn.addEventListener("click", openDialog);
+      closeDialogBtn.addEventListener("click", closeDialog);
+
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Escape" &&
+          modal.getAttribute("aria-hidden") === "false"
+        ) {
+          closeModal();
+        }
+      });
+    </script>
+  </body>
+</html>
